@@ -1,0 +1,11 @@
+{
+  "name": "feedcastfeed",
+  "version": "0.0.1",
+  "description": "turn a collection of RSS feeds into a podcast via TTS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Aaron Miller <me@aaron-miller.me>",
+  "license": "MIT"
+}
