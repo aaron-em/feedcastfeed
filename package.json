@@ -9,10 +9,10 @@
   "author": "Aaron Miller <me@aaron-miller.me>",
   "license": "MIT",
   "dependencies": {
-    "config": "^1.21.0",
-    "entities": "^1.1.1",
-    "feedparser": "^1.1.4",
-    "request": "^2.72.0",
-    "striptags": "^2.1.1"
+    "config": "1.21.0",
+    "entities": "1.1.1",
+    "feedparser": "1.1.4",
+    "request": "2.72.0",
+    "striptags": "2.1.1"
   }
 }
