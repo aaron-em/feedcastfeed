@@ -1,0 +1,8 @@
+{
+  "feeds": [],
+  "paths": {
+    "temp": "/tmp/",
+    "rss": "feed/index.rss",
+    "mp3": "feed/mp3/"
+  }
+}
