@@ -1,8 +1,9 @@
 {
   "feeds": [],
   "paths": {
-    "temp": "/tmp/",
-    "rss": "feed/index.rss",
-    "mp3": "feed/mp3/"
+    "temp": "./tmp/",
+    "rss": "./feed/index.rss",
+    "mp3": "./feed/mp3/",
+    "tts": "/usr/bin/text2wave"
   }
 }
