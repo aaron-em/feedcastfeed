@@ -3,7 +3,10 @@
   "paths": {
     "temp": "./tmp/",
     "rss": "./feed/index.rss",
-    "mp3": "./feed/mp3/",
-    "tts": "/usr/bin/text2wave"
+    "mp3": "./feed/mp3/"
+  },
+  "processors": {
+    "tts": ["/usr/bin/text2wave", []],
+    "mp3": ["/usr/bin/avconv", ["-i", "pipe:0", "-acodec", "libmp3lame", "-aq", "10", "-f", "mp3", "pipe:1"]]
   }
 }
