@@ -2,31 +2,41 @@ var config = require('config');
 var util = require('util');
 var fs = require('fs');
 
+function handleError(name) {
+  return function(err) {
+    console.error(name + ' blew up: ' + err.message + '\n' + err.stack);
+  };
+};
+
+var feeds = require(config.feeds);
+
 var FetchStream = require('./lib/fetch-stream');
 var TTSStream = require('./lib/tts-stream');
 var MP3Stream = require('./lib/mp3-stream');
 
-var entries = new FetchStream("https://stratechery.com/feed/");
-var tts = new TTSStream(config.processors.tts);
 var mp3 = new MP3Stream(config.processors.mp3);
+var tts = new TTSStream(config.processors.tts);
+tts.pipe(mp3);
 
-entries
-  .pipe(tts)
-  .pipe(mp3);
+var feedStreams = [];
+feeds.forEach(function(feed) {
+  var feedStream = new FetchStream(feed);
 
-function handleError(name) {
-  return function(err) {
-    throw new Error(name + ' blew up: ' + err.message + '\n' + err.stack);
-  };
-};
+  feedStream.on('error', handleError('parser for ' + feed.uri));
+  feedStream.on('data', function(entry) {
+    if (config.flags.dumpFeedItems) {
+      console.log(JSON.stringify(entry, false, 2));
+    } else {
+      console.log('parser for ' + feed.uri + ' finished with ' + entry.title);
+    };
+  });
+  
+  feedStream.pipe(tts);
+  feedStreams.push(feedStream);
+});
 
-entries.on('error', handleError('parser'));
 tts.on('error', handleError('tts'));
 mp3.on('error', handleError('mp3'));
-
-entries.on('data', function(entry) {
-  console.log('parser finished with', entry.title);
-});
 
 tts.on('data', function(item) {
   console.log('tts finished with', item.entry.title);
@@ -44,4 +54,6 @@ mp3.on('data', function(item) {
   file.end();
 });
 
-entries.go();
+feedStreams.forEach(function(stream) {
+  stream.go();
+});

@@ -1,5 +1,5 @@
 {
-  "feeds": [],
+  "feeds": "./config/feeds.js",
   "paths": {
     "temp": "./tmp/",
     "rss": "./feed/index.rss",
@@ -12,5 +12,8 @@
                                         "-qscale:a", "0",
                                         "-f", "mp3",
                                         "pipe:1"]]
+  },
+  "flags": {
+    "dumpFeedItems": false
   }
 }
