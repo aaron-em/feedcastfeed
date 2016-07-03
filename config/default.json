@@ -3,6 +3,7 @@
   "paths": {
     "temp": "./tmp/",
     "rss": "./feed/index.rss",
+    "guids": "./feed/known-guids.json",
     "mp3": "./feed/mp3/"
   },
   "processors": {

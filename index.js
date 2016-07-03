@@ -9,6 +9,7 @@ function handleError(name) {
 };
 
 var feeds = require(config.feeds);
+var knownGuids = require(config.paths.guids);
 
 var FetchStream = require('./lib/fetch-stream');
 var TTSStream = require('./lib/tts-stream');
@@ -20,7 +21,7 @@ tts.pipe(mp3);
 
 var feedStreams = [];
 feeds.forEach(function(feed) {
-  var feedStream = new FetchStream(feed);
+  var feedStream = new FetchStream(feed, knownGuids);
 
   feedStream.on('error', handleError('parser for ' + feed.uri));
   feedStream.on('data', function(entry) {
@@ -52,6 +53,13 @@ mp3.on('data', function(item) {
   var file = fs.createWriteStream(item.filename);
   file.write(item.mp3Data);
   file.end();
+
+  knownGuids.push(item.entry.raw.guid);
+  fs.writeFile(config.paths.guids,
+               JSON.stringify(knownGuids, false, 2),
+               function(err) {
+                 if (err) console.error('Failed saving GUID list: ' + err.message);
+               });
 });
 
 feedStreams.forEach(function(stream) {
