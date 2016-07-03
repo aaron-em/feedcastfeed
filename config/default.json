@@ -6,7 +6,11 @@
     "mp3": "./feed/mp3/"
   },
   "processors": {
-    "tts": ["/usr/bin/text2wave", []],
-    "mp3": ["/usr/bin/avconv", ["-i", "pipe:0", "-acodec", "libmp3lame", "-aq", "10", "-f", "mp3", "pipe:1"]]
+    "tts": ["c:\\cygwin\\bin\\bash", ["bin/text2wave.sh"]],
+    "mp3": ["c:\\cygwin\\bin\\ffmpeg", ["-i", "pipe:0",
+                                        "-codec:a", "libmp3lame",
+                                        "-qscale:a", "0",
+                                        "-f", "mp3",
+                                        "pipe:1"]]
   }
 }
