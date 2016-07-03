@@ -34,9 +34,12 @@ tts.on('data', function(item) {
 
 mp3.on('data', function(item) {
   console.log('mp3 finished with', item.entry.title);
+  item.filename = config.paths.mp3
+    + item.entry.source + ' - '
+    + item.entry.title.replace(/:/g, '_')
+    + '.mp3';
 
-  var file = fs.createWriteStream(config.paths.mp3
-                                  + item.entry.title + '.mp3');
+  var file = fs.createWriteStream(item.filename);
   file.write(item.mp3Data);
   file.end();
 });
